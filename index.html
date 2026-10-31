@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>عالم الجسيمات</title>
+<style>
+:root{--ink:#18304b;--muted:#63758b;--blue:#4169e1;--violet:#7955d9;--cyan:#27b6c8;--orange:#ffad5a;--bg:#f3f7ff;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#eef4ff,#f9f2ff);color:var(--ink)}
+header{padding:28px 6%;background:linear-gradient(120deg,#345bd7,#7651ce);color:white;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:260px;height:260px;border:35px solid #ffffff20;border-radius:50%;left:-60px;top:-140px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
+.brand{font-size:27px;font-weight:800}.score{background:#ffffff25;border:1px solid #ffffff55;padding:10px 16px;border-radius:16px;font-weight:bold}
+header p{max-width:650px;line-height:1.9;color:#eef0ff;position:relative;z-index:1}
+nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 6%;background:#fff;box-shadow:0 5px 20px #243b6520;position:sticky;top:0;z-index:5}
+nav button,.btn{border:0;border-radius:13px;padding:11px 16px;background:#edf1ff;color:#3454b4;font-weight:bold;cursor:pointer;font-family:inherit}
+nav button.active,.btn.primary{background:var(--blue);color:white}
+main{max-width:1100px;margin:26px auto;padding:0 18px}.page{display:none}.page.active{display:block}
+h2{font-size:25px;margin:8px 0 16px}.lead{color:var(--muted);line-height:1.9;margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.card{background:var(--card);padding:20px;border-radius:22px;box-shadow:0 10px 30px #2d4c8010;border:1px solid #e9edfa}
+.card h3{margin:5px 0 10px}.card p{line-height:1.85;color:var(--muted)}
+.emoji{font-size:32px}.pill{display:inline-block;background:#edf3ff;color:#4662b9;border-radius:30px;padding:5px 11px;font-size:13px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:stretch}.hero .card{background:linear-gradient(140deg,#fff,#f2f5ff)}
+.visual{min-height:220px;background:linear-gradient(145deg,#e8f8ff,#f0eaff);border-radius:20px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.particle{width:15px;height:15px;border-radius:50%;background:#4169e1;box-shadow:0 3px 8px #4169e155;position:absolute}
+#particleScene{position:relative;width:220px;height:170px;border:3px solid #9db7ed;border-radius:18px;background:#ffffffaa;overflow:hidden}
+.info{background:#f4f7ff;border-right:4px solid var(--cyan);padding:13px 16px;border-radius:12px;line-height:1.9;margin:14px 0}
+.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}.controls label{font-weight:bold}
+input[type=range]{accent-color:var(--blue);width:180px}
+.option{display:block;width:100%;text-align:right;margin:8px 0;padding:13px;border:2px solid #e5eafa;border-radius:13px;background:#fff;cursor:pointer;font:inherit}
+.option:hover{border-color:#8da3ed}.option.chosen{border-color:var(--blue);background:#f1f4ff}
+.feedback{padding:12px;border-radius:12px;margin-top:12px;display:none;line-height:1.8}.good{display:block;background:#e9f9f0;color:#176a40}.bad{display:block;background:#fff2e8;color:#94511d}
+.progress{height:12px;background:#e9eef9;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#28b8c6,#6c62df);transition:.3s}
+footer{text-align:center;padding:28px;color:#75849a}
+@keyframes float{0%{transform:translate(0,0)}50%{transform:translate(5px,-6px)}100%{transform:translate(0,0)}}
+@media(max-width:700px){.hero{grid-template-columns:1fr}.brand{font-size:22px}nav{position:static}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><div class="brand">⚛️ عالم الجسيمات</div><div class="score">⭐ نقاطك: <span id="points">0</span> | 🏅 المستوى: <span id="level">مستكشف</span></div></div>
+ <p>رحلة ممتعة لاكتشاف ممَّ تتكوّن المادة، وكيف تتحرك جسيماتها وتتغيّر حالاتها. تعلّم، جرّب، والعب!</p>
+</header>
+<nav>
+ <button class="active" data-page="home">الرئيسية</button><button data-page="lessons">الدروس</button><button data-page="lab">المختبر الافتراضي</button><button data-page="games">الألعاب والاختبارات</button><button data-page="achievements">إنجازاتي</button>
+</nav>
+<main>
+<section id="home" class="page active">
+ <div class="hero">
+  <div class="card"><span class="pill">مغامرتك العلمية تبدأ هنا</span><h2>هل تساءلت ممَّ تتكوّن الأشياء؟</h2><p class="lead">كل ما حولنا من هواء وماء وصخور وألعاب يتكوّن من جسيمات صغيرة جداً. في هذا التطبيق ستتعرف إلى ترتيبها وحركتها في حالات المادة المختلفة.</p><button class="btn primary" onclick="showPage('lessons')">ابدأ التعلّم ←</button></div>
+  <div class="visual"><div id="particleScene"></div></div>
+ </div>
+ <h2 style="margin-top:25px">ماذا ستكتشف؟</h2>
+ <div class="grid">
+  <div class="card"><div class="emoji">🧊</div><h3>الحالة الصلبة</h3><p>جسيمات متقاربة ومرتبة، تهتز في أماكنها.</p></div>
+  <div class="card"><div class="emoji">💧</div><h3>الحالة السائلة</h3><p>جسيمات متقاربة تستطيع الانزلاق والتحرك حول بعضها.</p></div>
+  <div class="card"><div class="emoji">☁️</div><h3>الحالة الغازية</h3><p>جسيمات متباعدة تتحرك بحرية في جميع الاتجاهات.</p></div>
+ </div>
+</section>
+<section id="lessons" class="page">
+ <h2>📚 الدروس التعليمية</h2><p class="lead">اقرأ الشرح ثم انتقل إلى المختبر لترى نموذج الجسيمات.</p>
+ <div class="grid">
+  <article class="card"><div class="emoji">⚛️</div><h3>ما هو المبنى الجسيمي؟</h3><p>المادة تتكوّن من جسيمات صغيرة جداً لا نستطيع رؤيتها بالعين المجردة. توجد بين الجسيمات فراغات، والجسيمات في حركة مستمرة.</p><div class="info">تذكّر: تختلف المواد في ترتيب جسيماتها، والمسافات بينها، وطريقة حركتها.</div></article>
+  <article class="card"><div class="emoji">🧊</div><h3>المادة الصلبة</h3><p>جسيماتها متراصة ومتقاربة جداً، وتحافظ غالباً على ترتيب ثابت. تهتز الجسيمات حول مواقعها، لذلك يكون للصلب شكل وحجم ثابتان.</p></article>
+  <article class="card"><div class="emoji">💧</div><h3>المادة السائلة</h3><p>جسيماتها متقاربة، لكنها غير ثابتة في مواقعها؛ يمكنها الانزلاق بجانب بعضها. لذلك يأخذ السائل شكل الوعاء الذي يوجد فيه، مع احتفاظه بحجمه.</p></article>
+  <article class="card"><div class="emoji">☁️</div><h3>المادة الغازية</h3><p>جسيماتها متباعدة وتتحرك بسرعة وبحرية في جميع الاتجاهات. ينتشر الغاز ليملأ الحيز المتاح له، وليس له شكل أو حجم ثابتان.</p></article>
+  <article class="card"><div class="emoji">🔥</div><h3>تغيّرات حالة المادة</h3><p>عند اكتساب المادة حرارة أو فقدانها قد تتغيّر حالتها. الانصهار: صلب إلى سائل. التجمّد: سائل إلى صلب. التبخّر: سائل إلى غاز. التكاثف: غاز إلى سائل.</p></article>
+  <article class="card"><div class="emoji">🌡️</div><h3>الحرارة وحركة الجسيمات</h3><p>عند تسخين المادة تزداد عادةً الطاقة الحركية المتوسطة لجسيماتها، وعند تبريدها تقل. وقد يؤدي ذلك إلى تغيّر حالة المادة.</p></article>
+ </div>
+</section>
+<section id="lab" class="page">
+ <h2>🔬 المختبر الافتراضي</h2><p class="lead">اختر حالة المادة وشاهد نموذجاً مبسطاً لترتيب الجسيمات وحركتها. هذا نموذج توضيحي وليس محاكاة دقيقة.</p>
+ <div class="card">
+  <div class="controls"><label for="state">حالة المادة:</label><select id="state" class="btn" onchange="drawLab()"><option value="solid">صلبة</option><option value="liquid">سائلة</option><option value="gas">غازية</option></select>
+  <label for="heat">درجة التسخين:</label><input id="heat" type="range" min="1" max="10" value="3" oninput="heatValue.textContent=this.value;drawLab()"><b id="heatValue">3</b></div>
+  <div class="visual" style="min-height:280px"><div id="labScene" style="position:relative;width:min(100%,480px);height:230px;border:3px solid #91a9e8;border-radius:18px;background:#ffffffaa;overflow:hidden"></div></div>
+  <div class="info" id="labText">في الحالة الصلبة تكون الجسيمات متقاربة وتهتز حول مواقعها.</div>
+  <button class="btn primary" onclick="drawLab()">إعادة ترتيب الجسيمات</button>
+ </div>
+</section>
+<section id="games" class="page">
+ <h2>🎮 تحدّي عالم الجسيمات</h2><p class="lead">أجب عن الأسئلة لتحصل على نقاط وتفتح مستويات جديدة.</p>
+ <div class="card"><div class="top" style="color:var(--ink)"><b id="qCount">السؤال 1 من 5</b><span class="pill">كل إجابة صحيحة = 10 نقاط</span></div><div class="progress" style="margin:14px 0"><span id="qProgress"></span></div><h3 id="question"></h3><div id="answers"></div><div class="feedback" id="feedback"></div><button class="btn primary" id="next" style="margin-top:14px" onclick="nextQuestion()" disabled>السؤال التالي</button></div>
+</section>
+<section id="achievements" class="page">
+ <h2>🏆 إنجازاتي</h2><p class="lead">تابع تقدّمك واجمع النقاط مع كل خطوة تتعلّمها.</p>
+ <div class="grid"><div class="card"><div class="emoji">⭐</div><h3>مجموع النقاط</h3><h2 id="totalPoints">0</h2></div><div class="card"><div class="emoji">🎖️</div><h3>مستواك الحالي</h3><h2 id="currentLevel">مستكشف</h2></div><div class="card"><div class="emoji">✅</div><h3>الإجابات الصحيحة</h3><h2 id="correctCount">0</h2></div></div>
+ <div class="card" style="margin-top:16px"><h3>مسار التقدّم</h3><div class="progress"><span id="levelProgress"></span></div><p id="levelHint" class="lead">اجمع 30 نقطة للوصول إلى مستوى عالم صغير!</p></div>
+ <button class="btn" onclick="resetProgress()">إعادة ضبط التقدّم</button>
+</section>
+</main>
+<footer>عالم الجسيمات · نتعلّم العلوم بالاكتشاف والتجربة</footer>
+<script>
+let points=0,correct=0,answered=false,qi=0;
+const questions=[
+ {q:"ممَّ تتكوّن المادة وفق المبنى الجسيمي؟",a:["من جسيمات صغيرة جداً","من ضوء فقط","من فراغ كامل"],c:0,why:"المادة تتكوّن من جسيمات صغيرة جداً، وبينها فراغات."},
+ {q:"كيف تتحرك جسيمات المادة الصلبة؟",a:["تنتقل بحرية بعيداً","تهتز حول مواقعها","تتحرك في كل الوعاء بسرعة"],c:1,why:"في الصلب تهتز الجسيمات حول مواقع شبه ثابتة."},
+ {q:"ما الذي يميّز جسيمات الغاز؟",a:["متراصة ومرتبة","ثابتة في أماكنها","متباعدة وتتحرك بحرية"],c:2,why:"جسيمات الغاز متباعدة وتتحرك في جميع الاتجاهات."},
+ {q:"ماذا نسمّي تحوّل السائل إلى صلب؟",a:["التجمّد","التبخّر","الانصهار"],c:0,why:"التجمّد هو تحوّل المادة من الحالة السائلة إلى الصلبة."},
+ {q:"ماذا يحدث عادةً لحركة الجسيمات عند تسخين المادة؟",a:["تتوقف تماماً","تزداد سرعتها المتوسطة","تختفي الجسيمات"],c:1,why:"تزداد الطاقة الحركية المتوسطة للجسيمات عند التسخين."}
+];
+function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));if(id==='lab')drawLab();if(id==='games'&&!document.getElementById('question').textContent)renderQuestion();window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function updateScore(){document.getElementById('points').textContent=points;document.getElementById('totalPoints').textContent=points;document.getElementById('correctCount').textContent=correct;let lv=points>=70?'خبير الجسيمات':points>=30?'عالم صغير':'مستكشف';document.getElementById('level').textContent=lv;document.getElementById('currentLevel').textContent=lv;document.getElementById('levelProgress').style.width=(points>=70?100:points>=30?(points-30)/40*100:points/30*100)+'%';document.getElementById('levelHint').textContent=points>=70?'رائع! وصلت إلى أعلى مستوى في هذه المغامرة.':`تحتاج إلى ${points<30?30-points:70-points} نقطة للوصول إلى المستوى التالي.`;}
+function makeParticles(el,type,count){el.innerHTML='';let w=el.clientWidth,h=el.clientHeight;for(let i=0;i<count;i++){let p=document.createElement('i');p.className='particle';let x,y;if(type==='solid'){x=18+(i%8)*23;y=18+Math.floor(i/8)*23}else if(type==='liquid'){x=15+Math.random()*(w-35);y=h*.45+Math.random()*(h*.45-20)}else{x=10+Math.random()*(w-30);y=10+Math.random()*(h-30)}p.style.left=x+'px';p.style.top=y+'px';p.style.background=['#4169e1','#27b6c8','#8a65dc','#ffad5a'][i%4];if(type==='gas'){p.style.animation=`float ${1+Math.random()*2}s ease-in-out infinite`;p.style.animationDelay=(-Math.random()*2)+'s'}el.appendChild(p)}}
+makeParticles(document.getElementById('particleScene'),'liquid',32);
+function drawLab(){let type=document.getElementById('state').value,heat=+document.getElementById('heat').value;makeParticles(document.getElementById('labScene'),type,36);let t={solid:'الجسيمات متقاربة ومرتبة، وتهتز حول مواقعها. عند زيادة التسخين تزداد سرعة اهتزازها.',liquid:'الجسيمات متقاربة لكن ترتيبها غير ثابت، ويمكنها الانزلاق بجانب بعضها.',gas:'الجسيمات متباعدة وتتحرك بحرية في كل الاتجاهات، وتنتشر لتملأ الوعاء.'};document.getElementById('labText').textContent=t[type]+' مستوى التسخين المختار: '+heat+'/10.';}
+function renderQuestion(){let q=questions[qi];answered=false;document.getElementById('qCount').textContent=`السؤال ${qi+1} من ${questions.length}`;document.getElementById('qProgress').style.width=(qi/questions.length*100)+'%';document.getElementById('question').textContent=q.q;let box=document.getElementById('answers');box.innerHTML='';q.a.forEach((a,i)=>{let b=document.createElement('button');b.className='option';b.textContent=a;b.onclick=()=>choose(i,b);box.appendChild(b)});let f=document.getElementById('feedback');f.className='feedback';f.textContent='';let n=document.getElementById('next');n.disabled=true;n.textContent=qi===questions.length-1?'إنهاء التحدّي':'السؤال التالي';}
+function choose(i,btn){if(answered)return;answered=true;let q=questions[qi],f=document.getElementById('feedback');document.querySelectorAll('.option').forEach(x=>x.disabled=true);if(i===q.c){points+=10;correct++;f.className='feedback good';f.textContent='أحسنت! إجابة صحيحة. '+q.why}else{f.className='feedback bad';f.textContent='محاولة جيدة! '+q.why}updateScore();document.getElementById('next').disabled=false;}
+function nextQuestion(){if(qi<questions.length-1){qi++;renderQuestion()}else{document.getElementById('question').textContent='انتهى التحدّي! نتيجتك: '+correct+' من '+questions.length+' إجابات صحيحة.';document.getElementById('answers').innerHTML='';document.getElementById('feedback').className='feedback good';document.getElementById('feedback').textContent='واصل التعلّم وجرّب مرة أخرى لتحسين نتيجتك.';document.getElementById('next').textContent='إعادة التحدّي';document.getElementById('next').disabled=false;document.getElementById('next').onclick=()=>{qi=0;document.getElementById('next').onclick=nextQuestion;renderQuestion()};document.getElementById('qProgress').style.width='100%';} }
+function resetProgress(){if(confirm('هل تريد إعادة ضبط النقاط والإنجازات؟')){points=0;correct=0;updateScore();}}
+renderQuestion();updateScore();drawLab();
+</script>
+</body></html>
